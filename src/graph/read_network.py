@@ -22,3 +22,19 @@ def generate_network(file: str) -> nx.DiGraph:
             G.add_edge(origin, destination, weight=1)
     
     return G
+
+def generate_network_without_edge_weight(file: str) -> nx.DiGraph:
+    data = pd.read_csv(file)
+
+    # Initialize an empty directed graph
+    G = nx.DiGraph()
+
+    # Iterate through each row in the dataset
+    for index, row in data.iterrows():
+        # Extract the origin, destination, and other relevant information
+        origin = row['ORIGIN']
+        destination = row['DEST']
+        
+        G.add_edge(origin, destination, weight=1)
+    
+    return G
