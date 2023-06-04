@@ -19,7 +19,7 @@ def find_airport_info(airport_code: str) -> dict:
 
     data = {
         'name': '',
-        'iata': 'LAS',
+        'iata': airport_code,
         'icao': '',
         'city': '',
         'country': 'United States',
@@ -39,7 +39,9 @@ def find_airport_info(airport_code: str) -> dict:
     response = requests.post('https://openflights.org/php/apsearch.php', headers=headers, data=data)
 
     data = response.json()
-    airport = data.get('airports', [])[0]
+    
+    airports = data.get('airports', [])
+    airport = airports[0] if len(airports) > 0 else None
     
     return {
         "name": airport.get('name'),
@@ -47,4 +49,6 @@ def find_airport_info(airport_code: str) -> dict:
         "code": airport.get("iata"),
         "lat": airport.get("y"),
         "lon": airport.get("x")
-    }
+    } if airport is not None else {}
+
+print(find_airport_info('ALB'))
